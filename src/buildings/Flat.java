@@ -1,6 +1,8 @@
 package buildings;
 
-public class Flat {
+import inter.Space;
+
+public class Flat implements Space {
     private double area;
     private int countOfRoom;
     public final static double DEFOLT_AREA = 50;
@@ -19,16 +21,27 @@ public class Flat {
         this.countOfRoom = countOfRoom;
     }
 
-    public int getCountOfRoom(){
-        return countOfRoom;
-    }
+    //public int getCountOfRoom(){
+        //return countOfRoom;
+    //}
 
-    public void setCountOfRoom( int countOfRoom){
-        this.countOfRoom = countOfRoom;
-    }
+    //public void setCountOfRoom( int countOfRoom){
+        //this.countOfRoom = countOfRoom;
+    //}
     public void setArea( double area){
         this.area = area;
     }
+
+    @Override
+    public int getRoom() {
+        return countOfRoom;
+    }
+
+    @Override
+    public void setRoom(int room) {
+        this.countOfRoom = room;
+    }
+
     public double getArea(){
         return area;
     }
