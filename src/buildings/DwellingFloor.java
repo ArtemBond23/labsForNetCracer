@@ -15,7 +15,7 @@ public class DwellingFloor implements Floor {
         }
     }
 
-    public DwellingFloor(Flat [] flats){
+    public DwellingFloor(Space [] flats){
         this.flats = flats;
     }
     //public int getCountFlatInFloor(){
@@ -90,7 +90,7 @@ public class DwellingFloor implements Floor {
     }
 
     @Override
-    public Space[] getArrayFloor() {
+    public Space[] getArraySpaceFloor() {
         return flats;
     }
 

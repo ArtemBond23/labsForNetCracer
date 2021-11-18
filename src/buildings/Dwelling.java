@@ -147,7 +147,7 @@ public class Dwelling implements Building {
         for(int i = 0; i < dwellingFloors.length; i++){
             for (int k = 0; k < dwellingFloors[i].getCountSpaceOnFloor(); k++) {
                 if (counter++ == numSpace - 1) {
-                    return  dwellingFloors[i].getArrayFloor()[k];
+                    return  dwellingFloors[i].getArraySpaceFloor()[k];
                 }
             }
         }

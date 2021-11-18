@@ -8,7 +8,7 @@ public interface  Floor {
 
     double getSumFloorArea(); //общая площадь на этаже
 
-    Space[] getArrayFloor(); //массив всех помещ на этаже
+    Space[] getArraySpaceFloor(); //массив всех помещ на этаже
 
     int getSumFloorRoom(); //общее кол-во комнат
 

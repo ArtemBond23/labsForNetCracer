@@ -254,7 +254,7 @@ public class OfficeBuilding implements Building {
         Node current = head;
         for(int i = 0; i < countFloor; i++){
             //sort[i] = current.floor.getCountSpaceOnFloor()[i];
-            Space[] tempOffice = current.floor.getArrayFloor();
+            Space[] tempOffice = current.floor.getArraySpaceFloor();
             for(int j = 0; j < tempOffice.length; j++){
                 sort[j] = tempOffice[j];
             }

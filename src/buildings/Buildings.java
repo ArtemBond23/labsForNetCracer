@@ -4,9 +4,8 @@ import inter.Building;
 import inter.Floor;
 import inter.Space;
 
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.io.*;
+import java.util.Scanner;
 
 public class Buildings {
     public  static  void outputBuilding(Building building, OutputStream out) throws IOException {
@@ -28,6 +27,59 @@ public class Buildings {
 
         }
 
+    }
+    public static Building inputBuilding(InputStream in) throws IOException {
+        DataInputStream dis = new DataInputStream(in);
+
+        int floorsNumber = dis.readInt();
+        Floor[] floors = new Floor[floorsNumber];
+
+        for (int i = 0; i < floorsNumber; i++) {
+
+            int spaceNumber = dis.readInt();
+            Space[] spaces = new Space[spaceNumber];
+
+            for (int j = 0; j < spaces.length; j++) {
+                int rooms = dis.readInt();
+                double area = dis.readDouble();
+                spaces[j] = new Flat(area,rooms);
+
+            }
+            floors[i] = new DwellingFloor(spaces);
+        }
+        return new Dwelling(floors);
+    }
+    public static void writeBuilding (Building building, Writer out) throws IOException {
+        BufferedWriter bufferedWriter = new BufferedWriter(out);
+        bufferedWriter.write(building.getCountFloor() + " ");
+        Floor[] floors = building.getArrayFloor();
+        for(int i = 0; i < floors.length; i++){
+            int countOfSpaces =  floors[i].getCountSpaceOnFloor();
+            bufferedWriter.write(countOfSpaces+ " ");
+            Space[] spaces = floors[i].getArraySpaceFloor();
+            for (int j = 0; j < spaces.length; j++){
+                bufferedWriter.write(spaces[j].getRoom()+ " ");
+                bufferedWriter.write(String.format("%.2f",spaces[j].getArea())+ " ");
+            }
+        }
+        bufferedWriter.close();
+    }
+
+    public static Building readBuilding(Reader in) {
+        Scanner scanner = new Scanner(in);
+        int countFloor = scanner.nextInt();
+        Floor [] floors = new Floor[countFloor];
+        for(int i = 0; i < floors.length; i++){
+            int countSpace = scanner.nextInt();
+            Space [] space = new Space[countSpace];
+            for(int j = 0; j < space.length; j++){
+                int roomCount = scanner.nextInt();
+                double area = scanner.nextDouble();
+                space[j] = new Flat(area, roomCount);
+            }
+            floors[i] = new DwellingFloor(space);
+        }
+        return  new Dwelling(floors);
     }
 
 

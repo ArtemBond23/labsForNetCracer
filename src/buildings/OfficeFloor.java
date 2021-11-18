@@ -29,7 +29,7 @@ public class OfficeFloor implements Floor {
         for (int i = 0; i < index; i++) {
             temp = temp.next;
         }
-        newNode.next = temp.next; //почему так
+        newNode.next = temp.next;
         temp.next = newNode;
         countOffices++;
     }
@@ -78,9 +78,11 @@ public class OfficeFloor implements Floor {
     }
 
     public OfficeFloor(Space[] offices) {
-        this();
+        head = new Node();
+        head.office = offices[0];
+        head.next = head;
         Node current = head;
-        for (int i = 0; i < offices.length; i++) {
+        for (int i = 1; i < offices.length; i++) {
             Node officeNode = new Node();
             officeNode.office = offices[i];
             officeNode.next = head;
@@ -105,7 +107,7 @@ public class OfficeFloor implements Floor {
     }
 
     @Override
-    public Space[] getArrayFloor() { // получение массива всех помещений этажа
+    public Space[] getArraySpaceFloor() { // получение массива всех помещений этажа
         Space [] offices = new Office[countOffices];
         Node current = head;
         for (int i = 0; i < offices.length; i++) {
@@ -158,7 +160,7 @@ public class OfficeFloor implements Floor {
         return countRoom;
     }
 
-    public Space []getSpaceArray() {  //получения массива офисов  //разобрать метод
+    public Space []getSpaceArray() {  //получения массива офисов
         Space [] offices = new Office[countOffices];
         Node current = head;
         for (int i = 0; i < offices.length; i++) {
