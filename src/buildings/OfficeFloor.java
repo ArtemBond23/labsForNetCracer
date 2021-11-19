@@ -4,11 +4,12 @@ import exception.SpaceIndexOutOfBoundsException;
 import inter.Floor;
 import inter.Space;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class OfficeFloor implements Floor {
+public class OfficeFloor implements Floor, Serializable {
 
     private Node head;
     private int countOffices;

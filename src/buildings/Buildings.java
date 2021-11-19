@@ -81,10 +81,41 @@ public class Buildings {
         }
         return  new Dwelling(floors);
     }
-
-
-
-
-
-
+    public static void serializeBuilding (Building building, OutputStream out) throws IOException {
+        ObjectOutputStream seriazeble = new ObjectOutputStream(out);
+        seriazeble.writeObject(building);
+    }
+    public static Building deserializeBuilding (InputStream in) throws IOException, ClassNotFoundException {
+        ObjectInputStream deseriazable = new ObjectInputStream(in);
+        return (Building) deseriazable.readObject();
+    }
+    public static void writeBuildingFormat (Building building, Writer out){
+        PrintWriter pw = new PrintWriter(out);
+        int floorCount = building.getCountFloor();
+        pw.printf("%d ", floorCount);
+        for (int i = 1; i <= floorCount; i++) {
+            int spaceCount = building.getFloorByNum(i).getCountSpaceOnFloor();
+            pw.printf("%d ", spaceCount);
+            for (int j = 1; j <= spaceCount; j++) {
+                Space space = building.getFloorByNum(i).getSpaceByNum(j);
+                pw.printf("%d ", space.getRoom());
+                pw.printf("%.1f ",space.getArea());
+            }
+        }
+        pw.close();
+    }
+    public static Building readBuilding(Scanner scanner) {
+        Floor [] floors = new Floor[scanner.nextInt()];
+        for(int i = 0; i < floors.length; i++){
+            int spacesCount = scanner.nextInt();
+            Space [] spaces = new Space[spacesCount];
+            for (int j = 0; j < spaces.length; j++){
+                int roomCount = scanner.nextInt();
+                double area = scanner.nextDouble();
+                spaces[j] = new Flat(area, roomCount);
+            }
+            floors[i] = new DwellingFloor(spaces);
+        }
+        return new Dwelling(floors);
+    }
 }

@@ -5,6 +5,8 @@ import inter.Floor;
 import inter.Space;
 
 import java.io.*;
+import java.nio.file.Paths;
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) throws IOException {
@@ -19,12 +21,11 @@ public class Main {
         //testFloors();
 
 
-
-        test1();
-
-
-
-
+        try {
+            test1();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
 
 
     }
@@ -42,7 +43,7 @@ public class Main {
         printOfficeFloor(officeFloor2);
     }
 
-    public static void test1() throws IOException {
+    public static void test1() throws IOException, ClassNotFoundException {
         Space[] spaces = new Space[] {
                 new Office(100),
                 new Office(200),
@@ -65,7 +66,18 @@ public class Main {
         Buildings.writeBuilding(building,fileWriter);
         FileReader fileReader = new FileReader("OfficeBuilding.txt");
         Building building1 = Buildings.readBuilding(fileReader);
-        printHouse(building1);
+        //printHouse(building1);
+        FileOutputStream fos3 = new FileOutputStream("OfficeBuildingSerialaze.txt");
+        Buildings.serializeBuilding(building1,fos3);
+        fos3.close();
+        Building building2 = Buildings.deserializeBuilding(new FileInputStream("OfficeBuildingSerialaze.txt"));
+        //printHouse(building2);
+        FileWriter file = new FileWriter("formatFile.txt");
+        Buildings.writeBuildingFormat(building,file);
+        //printHouse(building);
+        Scanner scanner = new Scanner(Paths.get("formatFile.txt"));
+        Building building3 = Buildings.readBuilding(scanner);
+        printHouse(building3);
     }
 
     public static void printHouse(Building house) {

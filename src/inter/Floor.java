@@ -1,8 +1,9 @@
 package inter;
 
-import java.util.Iterator;
+import java.io.Serializable;
 
-public interface  Floor {
+
+public interface  Floor extends Serializable {
 
     int getCountSpaceOnFloor(); //кол-во помещ на этаже
 

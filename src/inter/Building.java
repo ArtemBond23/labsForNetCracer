@@ -2,7 +2,9 @@ package inter;
 
 import buildings.OfficeFloor;
 
-public interface Building {
+import java.io.Serializable;
+
+public interface Building extends Serializable {
 
     int getCountFloor(); //получение количества этажей
 

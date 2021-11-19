@@ -6,11 +6,12 @@ import inter.Floor;
 import inter.Space;
 
 import java.io.OptionalDataException;
+import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.Arrays;
-import java.util.Comparator;
 
-public class Dwelling implements Building {
+
+public class Dwelling implements Building, Serializable {
     public Floor [] dwellingFloors;
 
     public Dwelling(int countFloors, int [] flatsCount){
@@ -129,7 +130,7 @@ public class Dwelling implements Building {
 
     @Override
     public Floor getFloorByNum( int numFloor) {
-        return dwellingFloors[numFloor];
+        return dwellingFloors[numFloor-1];
     }
 
     @Override

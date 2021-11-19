@@ -2,7 +2,9 @@ package buildings;
 
 import inter.Space;
 
-public class Flat implements Space {
+import java.io.Serializable;
+
+public class Flat implements Space, Serializable {
     private double area;
     private int countOfRoom;
     public final static double DEFOLT_AREA = 50;

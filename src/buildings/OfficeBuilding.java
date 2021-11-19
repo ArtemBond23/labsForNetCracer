@@ -6,7 +6,9 @@ import inter.Building;
 import inter.Floor;
 import inter.Space;
 
-public class OfficeBuilding implements Building {
+import java.io.Serializable;
+
+public class OfficeBuilding implements Building, Serializable {
 
     private Node head;
     private  int countFloor;

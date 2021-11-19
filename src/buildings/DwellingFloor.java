@@ -3,7 +3,9 @@ package buildings;
 import inter.Floor;
 import inter.Space;
 
-public class DwellingFloor implements Floor {
+import java.io.Serializable;
+
+public class DwellingFloor implements Floor, Serializable {
     //public Flat [] flats ;
     public Space [] flats ;
 
@@ -105,7 +107,7 @@ public class DwellingFloor implements Floor {
 
     @Override
     public Space getSpaceByNum(int spaceNum) {
-        return flats[spaceNum];
+        return flats[spaceNum-1];
     }
 
     @Override

@@ -1,6 +1,8 @@
 package inter;
 
-public interface Space {
+import java.io.Serializable;
+
+public interface Space extends Serializable {
     int getRoom();
     void setRoom(int room);
     double getArea();
