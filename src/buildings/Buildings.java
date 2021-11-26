@@ -1,6 +1,11 @@
 package buildings;
 
+import buildings.dwelling.Dwelling;
+import buildings.dwelling.DwellingFloor;
+import buildings.dwelling.Flat;
+import buildings.factory.DwellingFactory;
 import inter.Building;
+import inter.BuildingFactory;
 import inter.Floor;
 import inter.Space;
 
@@ -117,5 +122,37 @@ public class Buildings {
             floors[i] = new DwellingFloor(spaces);
         }
         return new Dwelling(floors);
+    }
+
+
+
+
+    public static BuildingFactory buildingFactory = new DwellingFactory();
+
+    public static void setBuildingFactory(BuildingFactory buildingFactory) {
+        Buildings.buildingFactory = buildingFactory;
+    }
+    public static Space createSpace(double area) {
+        return buildingFactory.createSpace(area);
+    }
+
+    public static Space createSpace(int roomsCount, double area) {
+        return buildingFactory.createSpace(roomsCount, area);
+    }
+
+    public static Floor createFloor(int spacesCount) {
+        return buildingFactory.createFloor(spacesCount);
+    }
+
+    public static Floor createFloor(Space[] spaces) {
+        return buildingFactory.createFloor(spaces);
+    }
+
+    public static Building createBuilding(int floorsCount, int [] flatsCount) {
+        return buildingFactory.createBuilding(floorsCount, flatsCount);
+    }
+
+    public static Building createBuilding(Floor[] floors) {
+        return buildingFactory.createBuilding(floors);
     }
 }

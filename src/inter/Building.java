@@ -1,10 +1,9 @@
 package inter;
 
-import buildings.OfficeFloor;
-
 import java.io.Serializable;
+import java.util.Iterator;
 
-public interface Building extends Serializable {
+public interface Building extends Serializable, Iterable<Floor> {
 
     int getCountFloor(); //получение количества этажей
 
@@ -30,6 +29,10 @@ public interface Building extends Serializable {
 
     Space getBestSpace(); // лучшее помещ
 
-    Space [] getSortSpaceArray(); // отсортированный массив помещ
+    Space [] getSortSpaceArray();// отсортированный массив помещ
+
+    Object clone() throws CloneNotSupportedException;
+
+    Iterator<Floor> iterator();
 
 }

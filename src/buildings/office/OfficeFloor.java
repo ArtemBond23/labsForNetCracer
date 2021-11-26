@@ -1,20 +1,18 @@
-package buildings;
+package buildings.office;
 
 import exception.SpaceIndexOutOfBoundsException;
 import inter.Floor;
 import inter.Space;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
-public class OfficeFloor implements Floor, Serializable {
+public class OfficeFloor implements Floor, Serializable, Iterable<Space> {
 
     private Node head;
     private int countOffices;
 
-    private static class Node {
+    private static class Node implements Serializable {
         Node next;
         Space office;
     }
@@ -55,7 +53,7 @@ public class OfficeFloor implements Floor, Serializable {
 
     public OfficeFloor(int countOffice) {
         this();
-        if(countOffice <=0){
+        if (countOffice <= 0) {
             throw new SpaceIndexOutOfBoundsException();
         }
         Node current = head;
@@ -67,14 +65,14 @@ public class OfficeFloor implements Floor, Serializable {
             current.next = node;
             current = node;
         }
-       // while (countOffice != countOffices) {
-           // Node node = new Node();
-           // node.office = new Office();
-           // node.next = head; // до равно -  куда записываем, после равно - что записываем,  берем ;
-           // current.next = node;
-           // current = node;
-           // countOffices++;
-       // }
+        // while (countOffice != countOffices) {
+        // Node node = new Node();
+        // node.office = new Office();
+        // node.next = head; // до равно -  куда записываем, после равно - что записываем,  берем ;
+        // current.next = node;
+        // current = node;
+        // countOffices++;
+        // }
 
     }
 
@@ -109,13 +107,13 @@ public class OfficeFloor implements Floor, Serializable {
 
     @Override
     public Space[] getArraySpaceFloor() { // получение массива всех помещений этажа
-        Space [] offices = new Office[countOffices];
+        Space[] offices = new Office[countOffices];
         Node current = head;
         for (int i = 0; i < offices.length; i++) {
             offices[i] = current.office;
             current = current.next;
         }
-        return  offices;
+        return offices;
     }
 
     @Override
@@ -143,7 +141,7 @@ public class OfficeFloor implements Floor, Serializable {
     public void addSpaceNumber(Space addSpace, int spaceNum) { //добавление помещения по номеру
         Node newNode = new Node();
         newNode.office = addSpace;
-        add(newNode,spaceNum);
+        add(newNode, spaceNum);
     }
 
     @Override
@@ -161,37 +159,41 @@ public class OfficeFloor implements Floor, Serializable {
         return countRoom;
     }
 
-    public Space []getSpaceArray() {  //получения массива офисов
-        Space [] offices = new Office[countOffices];
+    public Space[] getSpaceArray() {  //получения массива офисов
+        Space[] offices = new Office[countOffices];
         Node current = head;
         for (int i = 0; i < offices.length; i++) {
             offices[i] = current.office;
             current = current.next;
         }
-        return  offices;
+        return offices;
     }
-    public Space getOffice(int index){
+
+    public Space getOffice(int index) {
         return getNode(index).office;
     }
-    public void setOffice(int index, Office newOffice){ //изменение офиса по номеру и сслыке
+
+    public void setOffice(int index, Office newOffice) { //изменение офиса по номеру и сслыке
         getNode(index).office = newOffice;
     }
-    public void addOffice( int index, Office newOffice){
+
+    public void addOffice(int index, Office newOffice) {
         Node newNode = new Node();
         newNode.office = newOffice;
-        add(newNode,index);
+        add(newNode, index);
     }
-    public void deleteOffice(int index){
+
+    public void deleteOffice(int index) {
         remove(index);
     }
 
-    public Space getBestSpace(){
+    public Space getBestSpace() {
         double bestArea = 0;
         Space bestOffice = null;
         Node current = head;
-        for(int i = 0; i < countOffices; i++ ){
+        for (int i = 0; i < countOffices; i++) {
             current = current.next;
-            if(current.office.getArea() > bestArea){
+            if (current.office.getArea() > bestArea) {
                 bestArea = current.office.getArea();
                 bestOffice = current.office;
             }
@@ -199,9 +201,64 @@ public class OfficeFloor implements Floor, Serializable {
         //set.add;
         return bestOffice;
     }
-   // Set set = new HashSet();
+
+    @Override
+    public Object clone() {
+        return null;
+    }
+
+    @Override
+    public Iterator<Space> iterator() {
+        return new OfficeFloorIterator();
+    }
+
+    // Set set = new HashSet();
 
 
+    @Override
+    public String toString() {
+        return "OfficeFloor(" + countOffices + ", " + Arrays.toString(getArraySpaceFloor()) + ')';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (this.countOffices != ((OfficeFloor) o).countOffices) return false;
+        for (int i = 0; i < countOffices; i++) {
+            if (!this.getArraySpaceFloor()[i].equals(((OfficeFloor) o).getArraySpaceFloor()[i])) return false;
+        }
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(countOffices);
+        result = 31 * result + Arrays.hashCode(getArraySpaceFloor());
+        return result;
+    }
+
+    public class OfficeFloorIterator implements Iterator<Space> {
+        Node current = head;
+        int position = 0;
+
+
+        @Override
+        public boolean hasNext() {
+            if (position >= countOffices || current == null || current.office == null) return false;
+            return true;
+        }
+
+        @Override
+        public Space next() {
+            for (int i = 1; i < countOffices; i++) {
+                current = current.next;
+                position++;
+            }
+            return current.office;
+        }
+
+    }
 }
 
 

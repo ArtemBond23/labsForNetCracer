@@ -1,14 +1,14 @@
-package buildings;
+package buildings.dwelling;
 
 import exception.FloorIndexOutOfBoundsException;
 import inter.Building;
 import inter.Floor;
 import inter.Space;
 
-import java.io.OptionalDataException;
 import java.io.Serializable;
-import java.lang.reflect.Array;
 import java.util.Arrays;
+import java.util.Iterator;
+import java.util.Objects;
 
 
 public class Dwelling implements Building, Serializable {
@@ -217,24 +217,52 @@ public class Dwelling implements Building, Serializable {
         }
         return flats;
     }
-    /*
-    public  Flat[] sortFlat() {
-        Flat[] flats = new Flat[getFlatCountInDwelling()];
-        Flat tempFlat;
-        boolean sorted = false;
-        while(!sorted){
-            sorted = true;
-            for( int i = 0; i < flats.length - 1; i++){
-                if(flats[i].getArea() < flats[i+1].getArea()){
-                    tempFlat = flats[i];
-                    flats[i] = flats[i+1];
-                    flats[i+1] = tempFlat;
-                    sorted = false;
-                }
-            }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        Dwelling cloneBuilding = (Dwelling) super.clone();
+        Floor[] clonedFloors = new Floor[getCountFloor()];
+        for (int i = 0; i < dwellingFloors.length; i++) {
+            clonedFloors[i] = (Floor) getFloorByNum(i + 1).clone();
         }
-        return flats;
+        cloneBuilding.dwellingFloors = clonedFloors;
+
+        return cloneBuilding;
     }
 
-     */
+    @Override
+    public Iterator<Floor> iterator() {
+        return new IteratorDwelling();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Dwelling dwelling = (Dwelling) o;
+        return Arrays.equals(dwellingFloors, dwelling.dwellingFloors);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(dwellingFloors.length);
+        result = 31 * result + Arrays.hashCode(dwellingFloors);
+        return result;
+    }
+    public class IteratorDwelling implements Iterator<Floor>{
+        Floor[] floors = getArrayFloor();
+        int position = 0;
+        @Override
+        public boolean hasNext() {
+            if (position >= floors.length || floors[position] == null) return false;
+            return true;
+        }
+
+        @Override
+        public Floor next() {
+            Floor temp = floors[position];
+            position++;
+            return temp;
+        }
+    }
 }

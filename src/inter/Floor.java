@@ -1,9 +1,10 @@
 package inter;
 
 import java.io.Serializable;
+import java.util.Iterator;
 
 
-public interface  Floor extends Serializable {
+public interface  Floor extends Serializable, Iterable<Space> {
 
     int getCountSpaceOnFloor(); //кол-во помещ на этаже
 
@@ -22,5 +23,9 @@ public interface  Floor extends Serializable {
     void removeSpaceFloor(int spaceNum);
 
     Space getBestSpace();
+
+    Object clone();
+
+    Iterator<Space> iterator();
 
 }

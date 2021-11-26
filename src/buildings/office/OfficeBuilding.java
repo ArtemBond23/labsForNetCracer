@@ -1,12 +1,14 @@
-package buildings;
+package buildings.office;
 
-import exception.FloorIndexOutOfBoundsException;
 import exception.SpaceIndexOutOfBoundsException;
 import inter.Building;
 import inter.Floor;
 import inter.Space;
 
 import java.io.Serializable;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.Objects;
 
 public class OfficeBuilding implements Building, Serializable {
 
@@ -14,10 +16,12 @@ public class OfficeBuilding implements Building, Serializable {
     private  int countFloor;
 
 
-    private static class Node{
+    private static class Node implements Serializable{
         Floor floor;
         Node next;
         Node prev;
+
+
 
         //public Node(OfficeFloor floor, Node next, Node prev) {
             //this.floor = floor;
@@ -42,7 +46,7 @@ public class OfficeBuilding implements Building, Serializable {
         newNode.next = aft;
         newNode.prev = temp;
         temp.next = newNode;
-        //newNode.next = temp.next;//почему так
+        //newNode.next = temp.next;
         countFloor++;
     }
 
@@ -106,7 +110,7 @@ public class OfficeBuilding implements Building, Serializable {
         int allOffice = 0;
         Node current = head;
         for(int i = 1; i < countFloor; i++){
-            allOffice += current.floor.getCountSpaceOnFloor(); //ВЫЯСНИТЬ, ДО ИЛИ ПОСЛЕ ДЕЛАТЬ CURRENT.NEXT
+            allOffice += current.floor.getCountSpaceOnFloor();
             current  = current.next;
         }
         return allOffice;
@@ -117,31 +121,12 @@ public class OfficeBuilding implements Building, Serializable {
         double allArea = 0;
         Node current = head;
         for(int i = 1; i < countFloor; i++){
-            allArea += current.floor.getSumFloorArea(); //ВЫЯСНИТЬ, ДО ИЛИ ПОСЛЕ ДЕЛАТЬ CURRENT.NEXT
+            allArea += current.floor.getSumFloorArea();
             current = current.next;
         }
         return allArea;
     }
 
-    /*public int getAllOffice(){
-        int allOffice = 0;
-        Node current = head;
-        for(int i = 1; i < countFloor; i++){
-            allOffice += current.floor.getCountSpaceOnFloor(); //ВЫЯСНИТЬ, ДО ИЛИ ПОСЛЕ ДЕЛАТЬ CURRENT.NEXT
-            current  = current.next;
-        }
-        return allOffice;
-    }
-    public double getAllArea(){
-        double allArea = 0;
-        Node current = head;
-        for(int i = 1; i < countFloor; i++){
-            allArea += current.floor.getSumFloorArea(); //ВЫЯСНИТЬ, ДО ИЛИ ПОСЛЕ ДЕЛАТЬ CURRENT.NEXT
-            current = current.next;
-        }
-        return allArea;
-    }
-    */
     @Override
     public int getAllRoom() {
         int allRooms = 0;
@@ -282,129 +267,61 @@ public class OfficeBuilding implements Building, Serializable {
         return sort;
     }
 
-    /*
-    public int getRooms(){
-        int allRooms = 0;
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        OfficeBuilding clonedBuildings = (OfficeBuilding) super.clone();
+        clonedBuildings.head = new Node();
+        clonedBuildings.head.floor = (Floor) getFloorByNum(1).clone();
         Node current = head;
-        for(int i = 1; i < countFloor; i++){
-            allRooms += current.floor.getSumCountRoom();
-            current = current.next;
+        for (int i = 2; i < countFloor; i++) {
+            Node newNode = new Node();
+            newNode.floor = (Floor) getFloorByNum(i).clone();
+            newNode.next = head;
+            newNode.prev = head;
+            current.next = newNode;
+            newNode.prev = current;
+            current = newNode;
         }
-        return allRooms;
+
+        return clonedBuildings;
     }
-    public Floor[] getOfficeFloors(){ //получение массива этажей
-        Floor[]officeFloor = new OfficeFloor[countFloor];
+
+    @Override
+    public Iterator<Floor> iterator() {
+        return new IteratorBuilding();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        OfficeBuilding that = (OfficeBuilding) o;
+        return countFloor == that.countFloor &&
+                Objects.equals(head, that.head);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hash(countFloor);
+        result = 31 * result + Arrays.hashCode(getArrayFloor());
+        return result;
+    }
+    public class IteratorBuilding implements Iterator<Floor>{
         Node current = head;
-        for(int i = 1; i < countFloor; i++){
-            officeFloor[i] = current.floor;
-            current = current.next;
+        int position = 0;
+        @Override
+        public boolean hasNext() {
+            if (position >= countFloor || current == null || current.floor == null) return false;
+            return true;
         }
-        return officeFloor;
-    }
-    public OfficeFloor getOfficeFloor(int index){ //получение этажа по его номеру
-        Node current = head;
-        for (int i = 1; i < index; i++) {
-            current = current.next;
-        }
-        return current.floor;
-    }
-    public void setFloor(int index, OfficeFloor floor){ // изменение этажа
-        Node current = head;
-        for (int i = 1; i < index; i++) {
-            current = current.next;
-        }
-        current.floor = floor;
-    }
-     public Office getOffice( int numOffice){ //получение офиса по номеру
-        Node current = head;
-        Office currOffice = null;
-        for (int i = 0; i < countFloor; i++) {
-            OfficeFloor currentFloor = current.floor;
-            for (int j = 0; j < currentFloor.getCountSpaceOnFloor(); j++){
-               currOffice = currentFloor.getOffice(numOffice);
+
+        @Override
+        public Floor next() {
+            for (int i = 1; i < countFloor; i++) {
+                current = current.next;
+                position++;
             }
-            current = current.next;
-        }
-       return currOffice;
-    }
-
-    */
-    /* public void setOffice(int numOffice, Office office){ //изменение офиса
-        Node current = head;
-        for (int i = 0; i < countFloor; i++) {
-            OfficeFloor officeFloor = current.floor;
-            for (int j = 0; j < officeFloor.getCountSpaceOnFloor(); j++){
-                current.floor.setOffice(numOffice,office);
-            }
-            current = current.next;
+            return current.floor;
         }
     }
-    public void addOffice(int numFloor, Office newOffice){ // добавление офиса
-        Node current = head;
-        for (int i = 0; i < countFloor; i++){
-            current = current.next;
-            for (int j = 0; j < current.floor.getCountSpaceOnFloor(); j++){
-                current.floor.addOffice(numFloor,newOffice);
-            }
-        }
-    }
-    public void deleteOffice(int numDelOffice){// удаление офиса
-        if(numDelOffice <= 0 & numDelOffice > getAllOffice()){
-            throw new SpaceIndexOutOfBoundsException();
-        }
-        Node current = head;
-        for (int i = 0; i < countFloor; i++){
-            current = current.next;
-            for (int j = 0; j < current.floor.getCountSpaceOnFloor(); j++){
-                current.floor.remove(numDelOffice);
-            }
-        }
-    }
-    public Office bestSpace(){
-        Node current = head;
-        Office bestOffice = null;
-        double bestArea = 0;
-        for (int i = 0; i < countFloor; i++) {
-            current = current.next;
-            if (current.floor.getBestSpace().getAreaOffice() >= bestArea)
-                bestOffice = current.floor.getBestSpace();
-                bestArea = current.floor.getBestSpace().getAreaOffice();
-        }
-
-        return bestOffice;
-
-    }
-    //TODO: правильно ли
-    public Office[] getSortedOffice(){ //
-        Office[] sort = new Office[getAllOffice()];
-        Node current = head;
-        for(int i = 0; i < countFloor; i++){
-            //sort[i] = current.floor.getCountSpaceOnFloor()[i];
-            Office[] tempOffice = current.floor.getSpaceArray();
-            for(int j = 0; j < tempOffice.length; j++){
-                sort[j] = tempOffice[j];
-            }
-            current = current.next;
-        }
-        Office currentOffice = null;
-        boolean Sort = false;
-        while (!Sort) {
-            Sort = true;
-            for (int j = 0; j < sort.length - 1; j++) {
-
-                if (sort[j].getAreaOffice() < sort[j + 1].getAreaOffice()) {
-
-                    Sort = false;
-
-                    currentOffice = sort[j];
-                    sort[j] = sort[j + 1];
-                    sort[j + 1] = currentOffice;
-                }
-            }
-
-        }
-        return sort;
-    }
-
-     */
 }

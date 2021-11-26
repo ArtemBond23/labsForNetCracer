@@ -1,5 +1,10 @@
 package buildings;
 
+import buildings.dwelling.DwellingFloor;
+import buildings.dwelling.Flat;
+import buildings.office.Office;
+import buildings.office.OfficeBuilding;
+import buildings.office.OfficeFloor;
 import inter.Building;
 import inter.Floor;
 import inter.Space;
@@ -26,8 +31,16 @@ public class Main {
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
+        Space[] spaces = new Space[] {
+                new Office(100),
+                new Office(200),
+                new Office(300),
+                new Office(400)
+        };
 
 
+        DwellingFloor dwellingFloor = new DwellingFloor(spaces);
+        System.out.println(dwellingFloor.toString());
     }
 
     public static void testFloors(){
@@ -40,7 +53,7 @@ public class Main {
                 new Office(300, 8)
         };
         OfficeFloor officeFloor2 = new OfficeFloor(offices);
-        printOfficeFloor(officeFloor2);
+        //printOfficeFloor(officeFloor2);
     }
 
     public static void test1() throws IOException, ClassNotFoundException {
@@ -55,7 +68,7 @@ public class Main {
                 new OfficeFloor(spaces)
         };
         OfficeBuilding officeBuilding = new OfficeBuilding(floors);
-        System.out.println(officeBuilding.getCountFloor());
+        //System.out.println(officeBuilding.getCountFloor());
         FileOutputStream fos = new FileOutputStream("OfficeBuildingByte.txt");
         Buildings.outputBuilding(officeBuilding, fos);
        // printHouse(officeBuilding);
@@ -77,7 +90,7 @@ public class Main {
         //printHouse(building);
         Scanner scanner = new Scanner(Paths.get("formatFile.txt"));
         Building building3 = Buildings.readBuilding(scanner);
-        printHouse(building3);
+       // printHouse(building3);
     }
 
     public static void printHouse(Building house) {
