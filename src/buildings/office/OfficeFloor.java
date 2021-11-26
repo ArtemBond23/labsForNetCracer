@@ -12,6 +12,7 @@ public class OfficeFloor implements Floor, Serializable, Iterable<Space> {
     private Node head;
     private int countOffices;
 
+
     private static class Node implements Serializable {
         Node next;
         Space office;
@@ -236,6 +237,16 @@ public class OfficeFloor implements Floor, Serializable, Iterable<Space> {
         int result = Objects.hash(countOffices);
         result = 31 * result + Arrays.hashCode(getArraySpaceFloor());
         return result;
+    }
+
+    @Override
+    public int compareTo(Floor o) {
+        if(getCountSpaceOnFloor() > o.getCountSpaceOnFloor()){
+            return -1;
+        } else if (getCountSpaceOnFloor() < o.getCountSpaceOnFloor()) {
+            return 1;
+        }
+        return 0;
     }
 
     public class OfficeFloorIterator implements Iterator<Space> {

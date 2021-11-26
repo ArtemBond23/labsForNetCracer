@@ -136,6 +136,17 @@ public class DwellingFloor implements Floor, Serializable, Iterable<Space> {
         result = 31 * result + Arrays.hashCode(getArraySpaceFloor());
         return result;
     }
+
+    @Override
+    public int compareTo(Floor o) {
+        if(getCountSpaceOnFloor() > o.getCountSpaceOnFloor()){
+            return -1;
+        } else if (getCountSpaceOnFloor() < o.getCountSpaceOnFloor()) {
+            return 1;
+        }
+        return 0;
+    }
+
     public class DwellingFloorIterator implements Iterator<Space> {
         Space[] spaces = getArraySpaceFloor();
         int position = 0;

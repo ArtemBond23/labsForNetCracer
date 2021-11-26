@@ -78,4 +78,14 @@ public class Flat implements Space, Serializable {
         }
         return cloneFlat;
     }
+
+    @Override
+    public int compareTo(Space o) {
+        if (getArea() < o.getArea()) {
+            return 1;
+        } else if (getArea() > o.getArea()) {
+            return -1;
+        }
+        return 0;
+    }
 }

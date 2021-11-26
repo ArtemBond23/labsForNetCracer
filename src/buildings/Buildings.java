@@ -10,6 +10,7 @@ import inter.Floor;
 import inter.Space;
 
 import java.io.*;
+import java.util.Comparator;
 import java.util.Scanner;
 
 public class Buildings {
@@ -124,7 +125,37 @@ public class Buildings {
         return new Dwelling(floors);
     }
 
+    public static <T extends Comparable<T>> void sortArrayAsc(T[] objects) {
+        boolean isSorted = false;
+        while (!isSorted) {
+            isSorted = true;
+            for (int i = 1; i < objects.length; i++) {
+                if (objects[i].compareTo(objects[i - 1]) < 0) {
+                    isSorted = false;
 
+                    T current = objects[i];
+                    objects[i] = objects[i - 1];
+                    objects[i - 1] = current;
+                }
+            }
+        }
+    }
+
+    public static <T> void sortArrayDesc(T[] objects, Comparator<T> comparator) {
+        boolean isSorted = false;
+        while (!isSorted) {
+            isSorted = true;
+            for (int i = 1; i < objects.length; i++) {
+                if (comparator.compare(objects[i], objects[i - 1]) > 0) {
+                    isSorted = false;
+
+                    T current = objects[i];
+                    objects[i] = objects[i - 1];
+                    objects[i - 1] = current;
+                }
+            }
+        }
+    }
 
 
     public static BuildingFactory buildingFactory = new DwellingFactory();
