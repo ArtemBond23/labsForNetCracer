@@ -5,6 +5,8 @@ import buildings.dwelling.Flat;
 import buildings.office.Office;
 import buildings.office.OfficeBuilding;
 import buildings.office.OfficeFloor;
+import buildings.threads.Cleaner;
+import buildings.threads.Repairer;
 import inter.Building;
 import inter.Floor;
 import inter.Space;
@@ -26,7 +28,7 @@ public class Main {
         //testFloors();
 
 
-        try {
+       /* try {
             test1();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
@@ -38,9 +40,11 @@ public class Main {
                 new Office(400)
         };
 
+        */
+        testThreads();
 
-        DwellingFloor dwellingFloor = new DwellingFloor(spaces);
-        System.out.println(dwellingFloor.toString());
+        //DwellingFloor dwellingFloor = new DwellingFloor(spaces);
+        //System.out.println(dwellingFloor.toString());
     }
 
     public static void testFloors(){
@@ -110,6 +114,18 @@ public class Main {
             System.out.println("=========");
 
         }
+    }
+
+    public  static void testThreads(){
+        DwellingFloor dwellingFloor = new DwellingFloor(6);
+        Repairer repairer = new Repairer(dwellingFloor);
+        Cleaner cleaner = new Cleaner(dwellingFloor);
+        repairer.start();
+        repairer.interrupt();
+        System.out.println();
+        cleaner.start();
+        System.out.println();
+
     }
 
 }

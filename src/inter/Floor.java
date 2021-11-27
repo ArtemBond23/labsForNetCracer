@@ -29,5 +29,4 @@ public interface  Floor extends Serializable, Iterable<Space>,Comparable<Floor>,
     Iterator<Space> iterator();
 
 
-
 }

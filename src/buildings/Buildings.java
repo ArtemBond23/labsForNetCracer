@@ -186,4 +186,10 @@ public class Buildings {
     public static Building createBuilding(Floor[] floors) {
         return buildingFactory.createBuilding(floors);
     }
+
+    public static Floor synchronizedFloor (Floor floor) {
+        return new SynchronizedFloor(floor);
+    }
+
+
 }
